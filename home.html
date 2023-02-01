@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <style>
+      input[type="text"] {
+        padding: 10px;
+        font-size: 20px;
+        width: 60%;
+        margin-bottom: 20px;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      #answer {
+        font-size: 20px;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+        margin-top: 20px;
+        min-height: 40px;
+        text-align: center;
+      }
+    </style>
+    <script>
+      function searchGoogle() {
+        var query = document.getElementById("query").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://www.google.com/search?q=" + query, true);
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            var responseText = xhr.responseText;
+            var answer = responseText.match(/<div class="BNeawe iBp4i AP7Wnd">(.*?)<\/div>/);
+            if (answer) {
+              document.getElementById("answer").innerHTML = answer[1];
+            } else {
+              document.getElementById("answer").innerHTML = "Sorry, I couldn't find an answer to your question.";
+            }
+          }
+        };
+        xhr.send();
+      }
+    </script>
+  </head>
+  <body>
+    <input type="text" id="query" placeholder="Enter your query here">
+    <button onclick="searchGoogle()">Search</button>
+    <div id="answer"></div>
+  </body>
+</html>
